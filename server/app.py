@@ -12,6 +12,10 @@ cur = con.cursor()
 
 @app.route('/registrer', methods=["POST"])
 def registrer():
+  navn = request.get_json()["navn"]
+  passord = request.get_json()["passord"]
+
+  cur.execute("INSERT INTO brukere(navn, passord) VALUES(?, ?)", (navn, passord))
   return 200
 
 @app.route('/logg_inn', methods=["GET"])
@@ -45,3 +49,6 @@ def get_kommentarer():
 @app.route('/post_kommentarer', methods=["POST"])
 def post_kommentarer():
   return 200
+
+if __name__ == "__main__":
+  app.run(debug=True, port=5010)
