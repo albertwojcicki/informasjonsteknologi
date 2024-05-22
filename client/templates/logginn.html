@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="div-regForm">
+<form action="{{ url_for('logginn_bruker') }}" class="registration-form" method="post">
+    <input type="text" placeholder="Fullt navn" name="name" required>
+    <input type="password" placeholder="Passord" name="password" required>
+    <input type="submit" value="Logg inn">
+</form>
+<p id="formText">Har du ikke en bruker? Registrer deg <a href="registrer">her</a></p>
+</div>
+{% endblock %}
