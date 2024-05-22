@@ -22,7 +22,7 @@ con.commit()
 
 cur.execute("""CREATE TABLE IF NOT EXISTS brukere(
             id INTEGER PRIMARY KEY NOT NULL,
-            navn TEXT NOT NULL UNIQUE,
+            navn TEXT NOT NULL,
             passord TEXT NOT NULL
 )""")
 con.commit()
