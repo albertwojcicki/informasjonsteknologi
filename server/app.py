@@ -9,7 +9,7 @@ CORS(app)
 con = sqlite3.connect("database.db", check_same_thread=False)
 cur = con.cursor()
 
+
 @app.route('/get_tema')
 def get_tema():
   return 200
-
