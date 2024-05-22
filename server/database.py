@@ -5,7 +5,8 @@ cur = con.cursor()
 
 cur.execute("""CREATE TABLE IF NOT EXISTS tema(
             id INTEGER PRIMARY KEY NOT NULL,
-            tema TEXT NOT NULL
+            tema TEXT NOT NULL,
+            fag TEXT NOT NULL
 )""")
 con.commit()
 

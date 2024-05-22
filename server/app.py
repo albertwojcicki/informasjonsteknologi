@@ -17,7 +17,7 @@ def registrer():
 @app.route('/logg_inn', methods=["GET"])
 def logg_inn():
   return 200
-
+  
 @app.route('/get_tema', methods=["GET"])
 def get_tema():
   return 200
