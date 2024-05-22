@@ -31,8 +31,14 @@ def registrer_bruker():
 
 @app.route("/logginn_bruker", methods=["POST"])
 def logginn_bruker():
-    name = request.form.get("name")
-    password = request.form.get("password")
+    navn = request.form.get("name")
+    passord = request.form.get("password")
+    data = {
+        "navn": navn, 
+        "passord": passord
+    }
+    requests.post("http://127.0.0.1:5010/logginn", json=data)
+    return render_template("index.html")
 
 if __name__ == "__main__":
     app.run(debug=True)

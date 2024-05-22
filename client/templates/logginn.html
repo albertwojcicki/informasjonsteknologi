@@ -1,6 +1,7 @@
 {% extends "base.html" %}
 {% block content %}
 <div class="div-regForm">
+    <h2 class="tittelForm">Logg inn</h2>
 <form action="{{ url_for('logginn_bruker') }}" class="registration-form" method="post">
     <input type="text" placeholder="Fullt navn" name="name" required>
     <input type="password" placeholder="Passord" name="password" required>

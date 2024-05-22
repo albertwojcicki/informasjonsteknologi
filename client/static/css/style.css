@@ -35,7 +35,9 @@ footer {
     flex-direction: column;
     align-items: center;
 }
-
+.tittelForm {
+    padding-bottom: 10px;
+}
 #formText {
     padding-top: 10px;
 }
