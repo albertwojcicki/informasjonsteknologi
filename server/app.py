@@ -10,6 +10,7 @@ con = sqlite3.connect("database.db", check_same_thread=False)
 cur = con.cursor()
 
 
+
 @app.route('/registrer', methods=["POST"])
 def registrer():
   try:
@@ -38,13 +39,35 @@ def logg_inn():
   except sqlite3.Error as e:
     return {"error": str(e)}, 500
   
+
+
 @app.route('/get_tema', methods=["GET"])
 def get_tema():
-  return Response(status=200)
+  try:
+    fag = request.get_json()["fag"]
+    cur.execute("SELECT tema, id FROM tema WHERE fag = ?", (fag,))
+    data = cur.fetchall()
+    response = []
+    for tema in data:
+      response.append({"tema": tema[0], "id": tema[1]})
+
+    return response, 200
+  except sqlite3.Error as e:
+    return {"error": str(e)}, 500
 
 @app.route('/post_tema', methods=["POST"])
 def post_tema():
-  return Response(status=200)
+  try:
+    tema = request.get_json()["tema"]
+    fag = request.get_json()["fag"]
+
+    cur.execute("INSERT INTO tema(tema, fag) VALUES(?, ?)", (tema, fag))
+    con.commit()
+
+    return {"melding": "Tema lagt til"}, 200
+  except sqlite3.Error as e:
+    return {"error": str(e)}, 500
+
 
 @app.route('/get_guides', methods=["GET"])
 def get_guides():
@@ -58,6 +81,8 @@ def get_guide():
 def post_guides():
   return Response(status=200)
 
+
+
 @app.route('/get_kommentarer', methods=["GET"])
 def get_kommentarer():
   return Response(status=200)
@@ -65,6 +90,8 @@ def get_kommentarer():
 @app.route('/post_kommentarer', methods=["GET"])
 def post_kommentarer():
   return Response(status=200)
+
+
 
 if __name__ == "__main__":
   app.run(debug=True, port=5010)
