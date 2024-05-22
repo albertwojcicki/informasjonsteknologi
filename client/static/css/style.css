@@ -1,0 +1,28 @@
+* {
+    padding: 0;
+    margin: 0;
+    font-family:"Calibri", sans-serif;
+}
+
+header {
+    height: 50px;
+    background-color: #02577a;
+    color: #d4f0fc;
+    display: flex;
+    align-items: center;
+    padding-left: 20px;
+}
+
+
+footer {
+    height: 75px;
+    background-color: #01303f;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    color: #d4f0fc;
+    letter-spacing: 0.5px;
+}
