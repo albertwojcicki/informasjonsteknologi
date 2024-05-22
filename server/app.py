@@ -26,7 +26,7 @@ def logg_inn():
 def get_tema():
   return 200
 
-@app.rotue('/post_tema', methods=["POST"])
+@app.route('/post_tema', methods=["POST"])
 def post_tema():
   return 200
 

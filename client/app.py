@@ -18,17 +18,18 @@ def registrer():
 def logginn():
     return render_template("logginn.html")
 
-@app.route("/registrer_bruker", metohds=["POST"])
+@app.route("/registrer_bruker", methods=["POST"])
 def registrer_bruker():
-    name = request.form.get("name")
-    password = request.form.get("password")
+    navn = request.form.get("name")
+    passord = request.form.get("password")
     data = {
-        "name": name, 
-        "password": password
+        "navn": navn, 
+        "passord": passord
     }
-    requests("http://127.0.0.1:5010")
+    requests.post("http://127.0.0.1:5010/registrer", json=data)
+    return render_template("index.html")
 
-@app.route("/logginn_bruker", metohds=["POST"])
+@app.route("/logginn_bruker", methods=["POST"])
 def logginn_bruker():
     name = request.form.get("name")
     password = request.form.get("password")
