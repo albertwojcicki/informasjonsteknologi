@@ -14,6 +14,7 @@ cur.execute("""CREATE TABLE IF NOT EXISTS guides(
             id INTEGER PRIMARY KEY NOT NULL,
             tema_id INTEGER NOT NULL,
             bruker_id INTEGER NOT NULL,
+            bruker_navn TEXT NOT NULL,
             innhold TEXT NOT NULL,
             tittel TEXT NOT NULL,
             dato TIMESTAMP

@@ -47,6 +47,8 @@ def get_tema():
     fag = request.get_json()["fag"]
     cur.execute("SELECT tema, id FROM tema WHERE fag = ?", (fag,))
     data = cur.fetchall()
+    if not data:
+      return {"error": "Fant ikke temaer"}, 404
     response = []
     for tema in data:
       response.append({"tema": tema[0], "id": tema[1]})
@@ -69,17 +71,55 @@ def post_tema():
     return {"error": str(e)}, 500
 
 
+
 @app.route('/get_guides', methods=["GET"])
 def get_guides():
-  return Response(status=200)
+  try:
+    tema_id = request.get_json()["tema_id"]
+    cur.execute("SELECT id, bruker_navn, tittel, dato FROM guides WHERE tema_id = ?", (tema_id,))
+    data = cur.fetchall()
+    if not data:
+      return {"error": "Fant ikke guides"}, 404
+    response = []
+    for guide in data:
+      response.append({"id": guide[0], "navn": guide[1], "tittel": guide[2], "dato": guide[3]})
 
-@app.route('/get_guide', methods=["GET"])
-def get_guide():
-  return Response(status=200)
+    return response, 200
+  except sqlite3.Error as e:
+    return {"error": str(e)}, 500
 
 @app.route('/post_guide', methods=["POST"])
 def post_guides():
-  return Response(status=200)
+  try:
+    tema_id = request.get_json()["tema_id"]
+    bruker_id = request.get_json()["bruker_id"]
+    bruker_navn = request.get_json()["bruker_navn"]
+    innhold = request.get_json()["innhold"]
+    tittel = request.get_json()["tittel"]
+    dato = datetime.now()
+
+
+    cur.execute("INSERT INTO guides(tema_id, bruker_id, bruker_navn, innhold, tittel, dato) VALUES(?,?,?,?,?,?)", (tema_id, bruker_id, bruker_navn, innhold, tittel, dato))
+    con.commit()
+
+    return {"melding": "Guide lagt til"}, 200
+  except sqlite3.Error as e:
+    return {"error": str(e)}, 500
+
+@app.route('/get_guide', methods=["GET"])
+def get_guide():
+  try:
+    guide_id = request.get_json()["guide_id"]
+    cur.execute("SELECT id, bruker_id, bruker_navn, tittel, innhold, dato FROM guides WHERE id = ?", (guide_id,))
+    data = cur.fetchone()
+    print(data)
+    if not data:
+      return {"error": "Fant ikke guide"}, 404
+    
+    response = {"id": data[0], "bruker_id": data[1], "navn": data[2], "tittel": data[3], "innhold": data[4], "dato": data[5]}
+    return response, 200
+  except sqlite3.Error as e:
+    return {"error": str(e)}, 500
 
 
 
