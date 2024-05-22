@@ -16,11 +16,21 @@ def registrer():
   passord = request.get_json()["passord"]
 
   cur.execute("INSERT INTO brukere(navn, passord) VALUES(?, ?)", (navn, passord))
+  con.commit()
+
   return Response(status=200)
 
-@app.route('/logg_inn', methods=["GET"])
+@app.route('/logg_inn', methods=["POST"])
 def logg_inn():
-  return Response(status=200)
+  navn = request.get_json()["navn"]
+  passord = request.get_json()["passord"]
+  cur.execute("SELECT id FROM brukere WHERE navn = ? AND passord = ?", (navn, passord))
+  id = cur.fetchone()
+
+  if not id:
+    return {"error": "Fant ikke bruker"}, 404
+  
+  return {"id": id[0]}, 200
   
 @app.route('/get_tema', methods=["GET"])
 def get_tema():
@@ -30,7 +40,7 @@ def get_tema():
 def post_tema():
   return Response(status=200)
 
-@app.route('/get_guides', methods=["POST"])
+@app.route('/get_guides', methods=["GET"])
 def get_guides():
   return Response(status=200)
 
@@ -42,11 +52,11 @@ def get_guide():
 def post_guides():
   return Response(status=200)
 
-@app.route('/get_kommentarer', methods=["POST"])
+@app.route('/get_kommentarer', methods=["GET"])
 def get_kommentarer():
   return Response(status=200)
 
-@app.route('/post_kommentarer', methods=["POST"])
+@app.route('/post_kommentarer', methods=["GET"])
 def post_kommentarer():
   return Response(status=200)
 
