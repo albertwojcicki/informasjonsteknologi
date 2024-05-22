@@ -12,13 +12,16 @@ cur = con.cursor()
 
 @app.route('/registrer', methods=["POST"])
 def registrer():
-  navn = request.get_json()["navn"]
-  passord = request.get_json()["passord"]
+  try:
+    navn = request.get_json()["navn"]
+    passord = request.get_json()["passord"]
 
-  cur.execute("INSERT INTO brukere(navn, passord) VALUES(?, ?)", (navn, passord))
-  con.commit()
+    cur.execute("INSERT INTO brukere(navn, passord) VALUES(?, ?)", (navn, passord))
+    con.commit()
 
-  return Response(status=200)
+    return {"melding": "Bruker ble lagt til"}, 200
+  except sqlite3.Error as e:
+    return {"error": str(e)}, 500
 
 @app.route('/logg_inn', methods=["POST"])
 def logg_inn():
