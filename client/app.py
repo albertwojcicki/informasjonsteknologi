@@ -27,7 +27,7 @@ def registrer_bruker():
         "passord": passord
     }
     requests.post("http://127.0.0.1:5010/registrer", json=data)
-    return render_template("index.html")
+    return redirect("/logginn")
 
 @app.route("/logginn_bruker", methods=["POST"])
 def logginn_bruker():
@@ -38,7 +38,27 @@ def logginn_bruker():
         "passord": passord
     }
     requests.post("http://127.0.0.1:5010/logginn", json=data)
-    return render_template("index.html")
+
+    return redirect("/")
+
+@app.route("/utvikling", methods=["GET"])
+def utvikling():
+    session["fag"] = "utvikling"
+    response = requests.get("http://127.0.0.1:5010/get_tema", json={"fag": "utvikling"}).json()
+    return render_template("tema.html", response = response, fag = session["fag"])
+
+@app.route("/drift", methods=["GET"])
+def drift():
+    session["fag"] = "drift"
+    response = requests.get("http://127.0.0.1:5010/get_tema", json={"fag": "drift"}).json()
+    return render_template("tema.html", response = response, fag = session["fag"])
+
+
+@app.route("/<fag>/<tema_id>/guides", methods= ["GET"])
+def get_guides(fag, tema_id):
+    response = requests.get("http://127.0.0.1:5010/get_guides", json={"tema_id": tema_id}).json()
+    return render_template("guides.html", response = response)
 
 if __name__ == "__main__":
+    app.secret_key = "admin123412341234234123412341234123412341234123412341234"
     app.run(debug=True)
