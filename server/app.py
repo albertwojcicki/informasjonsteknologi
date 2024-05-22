@@ -25,15 +25,18 @@ def registrer():
 
 @app.route('/logg_inn', methods=["POST"])
 def logg_inn():
-  navn = request.get_json()["navn"]
-  passord = request.get_json()["passord"]
-  cur.execute("SELECT id FROM brukere WHERE navn = ? AND passord = ?", (navn, passord))
-  id = cur.fetchone()
+  try:
+    navn = request.get_json()["navn"]
+    passord = request.get_json()["passord"]
+    cur.execute("SELECT id FROM brukere WHERE navn = ? AND passord = ?", (navn, passord))
+    id = cur.fetchone()
 
-  if not id:
-    return {"error": "Fant ikke bruker"}, 404
-  
-  return {"id": id[0]}, 200
+    if not id:
+      return {"error": "Fant ikke bruker"}, 404
+    
+    return {"id": id[0]}, 200
+  except sqlite3.Error as e:
+    return {"error": str(e)}, 500
   
 @app.route('/get_tema', methods=["GET"])
 def get_tema():
