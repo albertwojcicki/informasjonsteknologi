@@ -2,7 +2,7 @@
 {% block content %}
 
 {% for tema in response %}
-<form action="{{ url_for('get_guides', fag = fag, tema = tema.tema)}}" method="get">
+<form action="{{ url_for('get_guides', fag = fag, tema = tema.tema)}}" method="post">
     <p>{{ tema.id }}</p>
     <input type="hidden" name="tema_id" value="{{tema.id}}">
     <p>{{ tema.tema }}</p>

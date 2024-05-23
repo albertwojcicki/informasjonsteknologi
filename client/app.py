@@ -54,7 +54,7 @@ def drift():
     return render_template("tema.html", response = response, fag = session["fag"])
 
 
-@app.route("/<fag>/<tema>/guides", methods= ["GET"])
+@app.route("/<fag>/<tema>/guides", methods= ["POST"])
 def get_guides(fag, tema):
     tema_id = request.form.get("tema_id")
     response = requests.get("http://127.0.0.1:5010/get_guides", json={"tema_id": tema_id}).json()
