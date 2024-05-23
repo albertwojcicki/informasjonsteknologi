@@ -48,7 +48,7 @@ def get_tema():
     cur.execute("SELECT tema, id FROM tema WHERE fag = ?", (fag,))
     data = cur.fetchall()
     if not data:
-      return {"error": "Fant ikke temaer"}, 404
+      return {"melding": "Fant ikke temaer"}, 404
     response = []
     for tema in data:
       response.append({"tema": tema[0], "id": tema[1]})
@@ -79,7 +79,7 @@ def get_guides():
     cur.execute("SELECT id, bruker_navn, tittel, dato FROM guides WHERE tema_id = ?", (tema_id,))
     data = cur.fetchall()
     if not data:
-      return {"error": "Fant ingen guides"}, 404
+      return {"melding": "Fant ingen guides"}, 404
     response = []
     for guide in data:
       response.append({"id": guide[0], "navn": guide[1], "tittel": guide[2], "dato": guide[3]})

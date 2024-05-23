@@ -37,27 +37,28 @@ def logginn_bruker():
         "navn": navn, 
         "passord": passord
     }
-    requests.post("http://127.0.0.1:5010/logginn", json=data)
+    requests.post("http://127.0.0.1:5010/logg_inn", json=data)
 
     return redirect("/")
 
 @app.route("/utvikling", methods=["GET"])
 def utvikling():
     session["fag"] = "utvikling"
-    response = requests.get("http://127.0.0.1:5010/get_tema", json={"fag": "utvikling"}).json()
+    response = requests.get("http://127.0.0.1:5010/get_tema", json={"fag": session["fag"]}).json()
     return render_template("tema.html", response = response, fag = session["fag"])
 
 @app.route("/drift", methods=["GET"])
 def drift():
     session["fag"] = "drift"
-    response = requests.get("http://127.0.0.1:5010/get_tema", json={"fag": "drift"}).json()
+    response = requests.get("http://127.0.0.1:5010/get_tema", json={"fag": session["fag"]}).json()
     return render_template("tema.html", response = response, fag = session["fag"])
 
 
-@app.route("/<fag>/<tema_id>/guides", methods= ["GET"])
-def get_guides(fag, tema_id):
+@app.route("/<fag>/<tema>/guides", methods= ["GET"])
+def get_guides(fag, tema):
+    tema_id = request.form.get("tema_id")
     response = requests.get("http://127.0.0.1:5010/get_guides", json={"tema_id": tema_id}).json()
-    return render_template("guides.html", response = response)
+    return render_template("guides.html", response = response, fag = fag, tema = tema)
 
 if __name__ == "__main__":
     app.secret_key = "admin123412341234234123412341234123412341234123412341234"
