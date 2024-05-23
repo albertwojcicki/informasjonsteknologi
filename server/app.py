@@ -79,7 +79,7 @@ def get_guides():
     cur.execute("SELECT id, bruker_navn, tittel, dato FROM guides WHERE tema_id = ?", (tema_id,))
     data = cur.fetchall()
     if not data:
-      return {"error": "Fant ikke guides"}, 404
+      return {"error": "Fant ingen guides"}, 404
     response = []
     for guide in data:
       response.append({"id": guide[0], "navn": guide[1], "tittel": guide[2], "dato": guide[3]})
@@ -125,11 +125,41 @@ def get_guide():
 
 @app.route('/get_kommentarer', methods=["GET"])
 def get_kommentarer():
-  return Response(status=200)
+  try:
+    guide_id = request.get_json()["guide_id"]
+    print(guide_id)
+    cur.execute("""SELECT kommentarer.id, brukere.id, brukere.navn, kommentarer.innhold, kommentarer.rating, kommentarer.dato FROM kommentarer
+                 JOIN brukere on brukere.id = kommentarer.bruker_id WHERE kommentarer.guide_id = ?""", (guide_id,))
+    kommentarer = cur.fetchall()
+    print(kommentarer)
+    if not kommentarer:
+      return {"melding": "Fant ingen kommentarer"}, 200
+    response = []
 
-@app.route('/post_kommentarer', methods=["GET"])
+    for kommentar in kommentarer:
+      response.append({"id": kommentar[0], "bruker_id": kommentar[1], "navn": kommentar[2], "innhold": kommentar[3], "rating": kommentar[4], "dato": kommentar[5]})
+
+    return response, 200
+  
+  except sqlite3.Error as e:
+    return {"error": str(e)}, 500
+
+@app.route('/post_kommentar', methods=["POST"])
 def post_kommentarer():
-  return Response(status=200)
+  try:
+    bruker_id = request.get_json()["bruker_id"]
+    guide_id = request.get_json()["guide_id"]
+    innhold = request.get_json()["innhold"]
+    rating = request.get_json()["rating"]
+    dato = datetime.now()
+
+    cur.execute("INSERT INTO kommentarer(bruker_id, guide_id, innhold, rating, dato) VALUES(?,?,?,?,?)", (int(bruker_id), int(guide_id), str(innhold), int(rating), dato))
+    con.commit()
+
+    return {"melding": "kommentar lagt til"}, 200
+
+  except sqlite3.Error as e:
+    return {"error": str(e)}, 500
 
 
 
