@@ -53,15 +53,10 @@ def drift():
     response = requests.get("http://127.0.0.1:5010/get_tema", json={"fag": session["fag"]}).json()
     return render_template("tema.html", response = response, fag = session["fag"])
 
-<<<<<<< Updated upstream
 
 @app.route("/<fag>/<tema>/guides", methods= ["GET"])
 def get_guides(fag, tema):
     tema_id = request.form.get("tema_id")
-=======
-@app.route("/<fag>/<tema_id>/guides", methods= ["GET"])
-def get_guides(fag, tema_id):
->>>>>>> Stashed changes
     response = requests.get("http://127.0.0.1:5010/get_guides", json={"tema_id": tema_id}).json()
     return render_template("guides.html", response = response, fag = fag, tema = tema)
 
