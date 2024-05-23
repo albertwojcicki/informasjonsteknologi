@@ -7,4 +7,12 @@ Hello world
 <a href="registrer">Registrer bruker</a>
 
 
+<form action="{{ url_for('utvikling')}}" method="get" >
+    <input type="submit" class="index-knapp" value="Utvikling">
+</form>
+<form action="{{ url_for('drift')}}" method="get">
+    <input type="submit" class="index-knapp" value="Drift">
+</form>
+
+
 {% endblock %}

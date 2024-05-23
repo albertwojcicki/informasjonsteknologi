@@ -79,3 +79,10 @@ footer {
 .registration-form input[type="submit"]:hover {
     background-color: #0056b3;
 }
+.index-knapp {
+    width: 30%;
+    height: 20vh;
+    background-color: #0056b3;
+    color: #d4f0fc;
+    font-size: 40px;
+}
