@@ -2,9 +2,10 @@
 {% block content %}
 Post form
 <form action="{{ url_for('post_guide'), }}">
-    <input type="text" value="title" name="tittel">
-    <input type="text" value="innhold" name="innhold">
-    
+    <input type="text" placeholder="title" name="tittel">
+    <input type="text" placeholder="innhold" name="innhold">
+    <input type="submit">
+
 </form>
 
 {% endblock %}
