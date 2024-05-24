@@ -37,8 +37,10 @@ def logginn_bruker():
         "navn": navn, 
         "passord": passord
     }
-    requests.post("http://127.0.0.1:5010/logg_inn", json=data)
-
+    response = requests.post("http://127.0.0.1:5010/logg_inn", json=data).json()
+    if response:
+        session["navn"] = navn
+        session["bruker_id"] = response["id"]
     return redirect("/")
 
 @app.route("/utvikling", methods=["GET"])
@@ -58,17 +60,18 @@ def drift():
 def get_guides(fag, tema):
     tema_id = request.form.get("tema_id")
     response = requests.get("http://127.0.0.1:5010/get_guides", json={"tema_id": tema_id}).json()
-    return render_template("guides.html", response = response, fag = fag, tema = tema)
+    return render_template("guides.html", response = response, fag = fag, tema = tema, tema_id = tema_id)
 
-@app.route("/post_guide_side")
-def post_guide_side():
-    return render_template("post_guide.html")
+@app.route("/post_guide_side/<tema_id>")
+def post_guide_side(tema_id):
+    return render_template("post_guide.html", tema_id = tema_id)
 
 @app.route("/post_guide", methods= ["POST"])
 def post_guide():
     tittel = request.form.get("tittel")
     innhold = request.form.get("innhold")
-    requests.post("http://127.0.0.1:5010/post_guide", json={"tittel": tittel, "innhold": innhold})
+    tema_id = request.form.get("tema_id")
+    requests.post("http://127.0.0.1:5010/post_guide", json={"tittel": tittel, "innhold": innhold, "tema_id": tema_id, "bruker_id": session["bruker_id"], "bruker_navn": session["navn"]})
     return redirect("/")
 
 

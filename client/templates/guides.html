@@ -2,11 +2,17 @@
 {% block content %}
 
 
+<a href="{{url_for('post_guide_side', tema_id = tema_id)}}" style="color:red;">Legg til en guide</a>
 
+
+{% for guide in response %}
+
+<p>{{guide.tittel}}</p>
+
+{% endfor %}
 
 <p>{{ response.melding }}</p>
 
 
 
-<p>dette er guidez</p>
 {% endblock %}

@@ -1,11 +1,11 @@
 {% extends "base.html" %}
 {% block content %}
 Post form
-<form action="{{ url_for('post_guide'), }}">
+<form action="{{ url_for('post_guide') }}" method="post">
     <input type="text" placeholder="title" name="tittel">
     <input type="text" placeholder="innhold" name="innhold">
+    <input type="hidden" name="tema_id" value="{{tema_id}}">
     <input type="submit">
-
 </form>
 
 {% endblock %}
