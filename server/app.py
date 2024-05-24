@@ -96,7 +96,8 @@ def post_guides():
     bruker_navn = request.get_json()["bruker_navn"]
     innhold = request.get_json()["innhold"]
     tittel = request.get_json()["tittel"]
-    dato = datetime.now()
+    dato = datetime.now().strftime("%x %X")
+    print(dato)
 
 
     cur.execute("INSERT INTO guides(tema_id, bruker_id, bruker_navn, innhold, tittel, dato) VALUES(?,?,?,?,?,?)", (tema_id, bruker_id, bruker_navn, innhold, tittel, dato))

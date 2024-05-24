@@ -8,7 +8,9 @@
 {% for guide in response %}
 
 <p>{{guide.tittel}}</p>
-
+<p>{{guide.navn}}</p>
+<p style="font-size: 10px;">{{guide.dato}}</p>
+<br>
 {% endfor %}
 
 <p>{{ response.melding }}</p>
